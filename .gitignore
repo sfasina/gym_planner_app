@@ -1,0 +1,19 @@
+# Virtuální prostředí (tohle na GitHub fakt nesmí)
+venv/
+.venv/
+env/
+
+# Pythoní smetí a dočasné soubory
+__pycache__/
+*.pyc
+
+# Tvoje SQLite databáze (nechceš sdílet data s internetem)
+*.db
+*.sqlite3
+
+# Nastavení editoru (třeba tvoje VS Code)
+.vscode/
+.idea/
+
+# Tajná hesla a klíče
+.env
