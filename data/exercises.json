@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Bench Press",
+    "primary": ["Chest"],
+    "secondary": ["Triceps", "Front Delt"]
+  },
+  {
+    "name": "Squat",
+    "primary": ["Quadriceps"],
+    "secondary": ["Glutes", "Hamstrings", "Calves"]
+  },
+  {
+    "name": "Deadlift",
+    "primary": ["Hamstrings", "Glutes", "Lower Back"],
+    "secondary": ["Lats", "Traps", "Forearms"]
+  },
+  {
+    "name": "Overhead Press",
+    "primary": ["Shoulders"],
+    "secondary": ["Triceps", "Upper Chest"]
+  },
+  {
+    "name": "Pull-Up",
+    "primary": ["Lats"],
+    "secondary": ["Biceps", "Forearms", "Rear Delt"]
+  },
+  {
+    "name": "Barbell Row",
+    "primary": ["Lats", "Rhomboids"],
+    "secondary": ["Biceps", "Lower Back"]
+  },
+  {
+    "name": "Bicep Curl",
+    "primary": ["Biceps"],
+    "secondary": ["Forearms"]
+  },
+  {
+    "name": "Tricep Pushdown",
+    "primary": ["Triceps"],
+    "secondary": []
+  },
+  {
+    "name": "Leg Press",
+    "primary": ["Quadriceps"],
+    "secondary": ["Glutes", "Hamstrings"]
+  },
+  {
+    "name": "Lunges",
+    "primary": ["Quadriceps", "Glutes"],
+    "secondary": ["Hamstrings", "Calves"]
+  }
+]
