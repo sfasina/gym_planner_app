@@ -1,8 +1,11 @@
 from multiprocessing.dummy import connection
 import sqlite3 
+import os
 
 class DatabaseManager:
-   def __init__(self, db_path):
+   def __init__(self):
+      base_dir = os.path.dirname(os.path.abspath(__file__))
+      db_path = os.path.join(base_dir, "..", "data", "fitness.db")
       self.database_connection = sqlite3.connect(db_path)
       self.database_connection.execute("PRAGMA foreign_keys = ON")
       self.create_table()
