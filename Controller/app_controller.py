@@ -1,11 +1,12 @@
 from model.database_manager import DatabaseManager
 from model.workout_model import WorkoutModel
+from view.main_window import MainWindow
 
 class AppController:
    def __init__(self):
       self._database = DatabaseManager()
       self._model = WorkoutModel(self._database)
-      # self._view = MainWindow(controller=self)
+      self._view = MainWindow(controller=self)
       
    def save_set(self, date, exercise_id, weight, reps, rpe):
       if not date:
@@ -35,4 +36,4 @@ class AppController:
       
    def run(self):
       print("Aplikace spuštěna")
-      # self._view.mainloop()
+      self._view.mainloop()
