@@ -2,6 +2,7 @@ import ttkbootstrap as tb
 from ttkbootstrap.constants import SUCCESS, PRIMARY, INFO
 
 from view.workout_form import WorkoutForm
+from view.history_view import HistoryView
 
 
 class MainWindow(tb.Window):
@@ -16,21 +17,17 @@ class MainWindow(tb.Window):
       notebook = tb.Notebook(self, bootstyle=SUCCESS)
       notebook.pack(fill="both", expand=True, padx=10, pady=10)
 
-      
       workout_form = WorkoutForm(notebook, controller=self._controller)
       notebook.add(workout_form, text=" TRAINING ")
       
+      self._history_tab = HistoryView(notebook, controller=self._controller)
+      notebook.add(self._history_tab, text=" STATISTIKA ")
 
-      history_tab = tb.Frame(notebook, padding=20)
-      tb.Label(
-         history_tab,
-         text="Zde bude tabulka s historií tréninků",
-         font=("Helvetica", 14),
-      ).pack(pady=20)
-      notebook.add(history_tab, text=" STATISTIC ")
-      notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed)
+      notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed) 
       self._notebook = notebook
 
    def _on_tab_changed(self, event) -> None:
       selected = event.widget.index(event.widget.select())
       print(f"Přepnuto na záložku index {selected}")
+      if selected == 1:
+         self._history_tab.refresh()

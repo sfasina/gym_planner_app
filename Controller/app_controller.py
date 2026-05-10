@@ -28,9 +28,6 @@ class AppController:
    def get_exercises(self):
       return self._model.get_all_exercises()
    
-   def add_custom_exercise(self, name):
-      return self._model.add_custom_exercise(name)
-   
    def get_history(self):
       return self._model.get_history()
       
