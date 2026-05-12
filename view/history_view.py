@@ -2,6 +2,8 @@ import ttkbootstrap as tb
 from ttkbootstrap.constants import PRIMARY
 from tkinter import ttk
 from datetime import datetime
+import tkinter as tk
+
 
 
 class HistoryView(tb.Frame):
@@ -11,10 +13,7 @@ class HistoryView(tb.Frame):
       self._build_ui()
       self.refresh()
    
-   # ============================================================
-   #  Sestavení UI — jen jednou při startu
-   # ============================================================
-   
+
    def _build_ui(self) -> None:
       tb.Label(
          self,
@@ -23,7 +22,20 @@ class HistoryView(tb.Frame):
          bootstyle=PRIMARY,
       ).pack(pady=(0, 20), anchor="w")
       
+      self._build_filter()
       self._build_tree()
+      
+   def _build_filter(self) -> None:
+      filter_frame = tb.Frame(self)
+      filter_frame.pack(fill="x", pady=(0, 10))
+   
+      tb.Label(filter_frame, text="Hledat:").pack(side="left", padx=(0, 10))
+      
+      self._filter_var = tk.StringVar()
+      self._filter_var.trace_add("write", self._apply_filter)
+      tb.Entry(filter_frame, textvariable=self._filter_var).pack(
+         side="left", fill="x", expand=True
+      )
 
    def _build_tree(self) -> None:
       # Rozdělím sestavení stromu do menších kroků kvůli čitelnosti.
@@ -42,9 +54,10 @@ class HistoryView(tb.Frame):
       )
 
    def _configure_tree_style(self) -> None:
-      # Vyšší řádky zlepší čitelnost vnořených položek.
+      # vytvoření style pro vyšší řádky, zlepší čitelnost vnořených položek.
       style = ttk.Style()
       style.configure("History.Treeview", rowheight=35)
+      #predani stylu
       self._tree.configure(style="History.Treeview")
 
    def _configure_tree_headings(self) -> None:
@@ -56,7 +69,7 @@ class HistoryView(tb.Frame):
 
    def _configure_tree_columns(self) -> None:
       # Zarovnání a šířky drží tabulku čitelnou i při delších názvech.
-      self._tree.column("#0", width=320, minwidth=220, anchor="w")
+      self._tree.column("#0", width=250, minwidth=220, anchor="w")
       self._tree.column("col1", width=170, minwidth=120, anchor="center")
       self._tree.column("col2", width=170, minwidth=140, anchor="center")
       self._tree.column("col3", width=110, minwidth=80, anchor="center")
@@ -64,11 +77,34 @@ class HistoryView(tb.Frame):
       self._tree.pack(fill="both", expand=True)
    
    def refresh(self) -> None:
-      self._clear_tree()
+      #jen ciste funkce ktera je volana v init aby refreshla a dala do defaultu vyhledavani 
+      self._apply_filter()
+      
+   def _apply_filter(self, *args) -> None:
+      # Načte historii, vyfiltruje podle uživatelova vstupu a překreslí strom.
+      # nacte list tuplu
       rows = self._controller.get_history()
-      grouped = self._group_data(rows)
+      
+      filtered_rows = self._filter_rows(rows)
+      
+      self._clear_tree()
+      grouped = self._group_data(filtered_rows)
       self._fill_tree(grouped)
-   
+
+   def _filter_rows(self, rows: list) -> list:
+      # Vrátí jen ty série, jejichž název cviku obsahuje hledaný text.
+      query = self._filter_var.get().lower()
+      
+      # Prázdný filtr = ukázat všechno.
+      if not query:
+         return rows
+      
+      matching_rows = []
+      for row in rows:
+         exercise_name = row[2]
+         if query in exercise_name.lower():
+            matching_rows.append(row)
+      return matching_rows
    
    def _clear_tree(self) -> None:
       # Před novým vykreslením odstraním starý obsah.

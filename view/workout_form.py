@@ -187,4 +187,3 @@ class WorkoutForm(tb.Frame):
       else:
          self._status_var.set("Nepodařilo se uložit")
          
-      print(date_formated, exercise_id, weight, reps, rpe)
